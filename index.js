@@ -1,91 +1,83 @@
-const form = document.getElementById('form')
-const name = document.getElementById('name')
-const description = document.getElementById('description')
-const image = document.getElementById('image')
+const form = document.getElementById("form");
+const name = document.getElementById("name");
+const description = document.getElementById("description");
+const image = document.getElementById("image");
 
-let contacts = []
+let contacts = [];
 
 function render() {
-    const rootDiv = document.getElementById('root')
-    rootDiv.innerHTML=''   
+  const rootDiv = document.getElementById("root");
+  rootDiv.innerHTML = "";
 
-    for(i=0; i<contacts.length; i++) {
+  for (i = 0; i < contacts.length; i++) {
+    const contact = document.createElement("div");
+    contact.classList.add("contact");
 
-        const contact = document.createElement('div')
-        contact.classList.add('contact')
+    const image = document.createElement("img");
+    image.src = contacts[i].image;
+    contact.append(image);
 
-        const image = document.createElement('img')
-        image.src = contacts[i].image
-        contact.append(image)
+    const contactDetails = document.createElement("div");
+    contactDetails.classList.add("contact-details");
+    contact.append(contactDetails);
 
-        const contactDetails = document.createElement('div')
-        contactDetails.classList.add('contact-details')
-        contact.append(contactDetails)
+    const name = document.createElement("h3");
+    name.innerHTML = contacts[i].name;
+    contactDetails.append(name);
 
-        const name = document.createElement('h3')
-        name.innerHTML=contacts[i].name
-        contactDetails.append(name)
+    const description = document.createElement("p");
+    description.innerHTML = contacts[i].description;
+    contactDetails.append(description);
 
-        const description = document.createElement('p')
-        description.innerHTML=contacts[i].description
-        contactDetails.append(description)
+    const button = document.createElement("button");
+    button.innerHTML = "delete";
+    button.id = i;
+    button.addEventListener("click", (e) => {
+      console.log(button.id);
 
-        const button = document.createElement('button')
-        button.innerHTML='delete'
-        button.id=i
-        button.addEventListener('click', (e) => {
-            
-            console.log(button.id)
+      contacts = contacts.filter((contact, i) => {
+        if (i !== Number(button.id)) {
+          return contact;
+        }
+      });
+      console.log(contacts);
+      render();
+    });
 
-            contacts = contacts.filter((contact, i) => {
-                
-                if(i !== Number(button.id)){
-                    return contact
-                }
-            })
-            console.log(contacts)
-            render()
-        })
+    contactDetails.append(button);
 
-        contactDetails.append(button)
-
-        rootDiv.append(contact)
-        
-    }
-    
+    rootDiv.append(contact);
+  }
 }
 
-form.addEventListener ('submit' , (e) => {
-    e.preventDefault()
-    
-    if (name.value.length <= 0 )  {
-        console.log("please fill this column")
-        return
-    }
-    if (name.value.length >= 15 ) {
-        console.log("enter a valid name")
-        return
-    }
-    if (description.value.length <= 10) {
-        console.log("add a larger description")
-        return
-    }
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-    var values = {
-        name : name.value,
-        description : description.value,
-        image : image.value
-    }
+  if (name.value.length <= 0) {
+    console.log("please fill this column");
+    return;
+  }
+  if (name.value.length >= 15) {
+    console.log("enter a valid name");
+    return;
+  }
+  if (description.value.length <= 10) {
+    console.log("add a larger description");
+    return;
+  }
 
-    console.log(values)
+  var values = {
+    name: name.value,
+    description: description.value,
+    image: image.value,
+  };
 
-    contacts.push(values)
-    console.log(contacts)
+  console.log(values);
 
-    render()
+  contacts.push(values);
+  console.log(contacts);
 
-    form.reset()
+  render();
 
-})
-
-   
+  form.reset();
+});

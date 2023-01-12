@@ -1,28 +1,23 @@
 class Model {
-    constructor (){
+  constructor() {
+    this.contacts = [];
+  }
 
-        this.contacts = []
-        
-    }
+  getContacts() {
+    return this.contacts;
+  }
 
-    getContacts () {
-        return this.contacts;
-    }
+  setContact(contact) {
+    this.contacts.push(contact);
+  }
 
-    setContact(contact) {
-        this.contacts.push(contact)
-    }
-
-    deleteContact(index) {
-        this.contacts = this.contacts.filter ((contact, i) => {
-            if(i !== (index)){
-                return contact
-            }
-        })
-    }
-
-
-
+  deleteContact(index) {
+    this.contacts = this.contacts.filter((contact, i) => {
+      if (i !== index) {
+        return contact;
+      }
+    });
+  }
 }
 
 export default Model;
